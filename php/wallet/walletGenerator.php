@@ -108,8 +108,9 @@ class walletGenerator {
 
         // monero 18 / 12
         // catalyst 0x171f54 / d4be5c
-        $data = "12" . $psk . $pvk;
-        $publicKey = $this->base58->encode($data);
+        $data = "d4be5c" . $psk . $pvk;
+        $checksum = $this->keccak_256($data);
+        $publicKey  = $this->base58->encode($data . substr($checksum, 0, 8));
         return $publicKey;
     }
 
@@ -156,7 +157,7 @@ class walletGenerator {
         $walletGenerator = new walletGenerator();
         $getMnemonic = $walletGenerator->getMnemonic();
         //$tmp = 'pool cactus voted superior eccentric desk autumn oxidant ferry rest fever dinner nobody asked tusks abbey anchor pizza wizard pinched renting stellar artistic bacon oxidant';
-        $tmp = 'plywood broken distance yahoo wipeout lively rage dwelt nobody tirade somewhere snout bite dating buzzer omission vexed linen jaunt certain loudly hive dinner dude buzzer';
+        $tmp = 'piano wayside darted blip nudged pastry nail macro fossil foolish innocent tossed onslaught makeup lurk cylinder somewhere digit pierce sack fuel fading simplest smidgen nail';
         $privateKey = $walletGenerator->getPrivateKey($tmp);
         $publicKey = $walletGenerator->getPublicKey($privateKey);
         $count = count(explode(' ', $getMnemonic));
