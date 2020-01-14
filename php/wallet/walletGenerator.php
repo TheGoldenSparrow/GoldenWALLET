@@ -97,6 +97,16 @@ class walletGenerator {
         $result = substr($str, 6, 2) . substr($str, 4, 2) . substr($str, 2, 2) . substr($str, 0, 2);
         return $result;
     }
+    
+    public function decode($addr) {
+        $this->base58 = new base58();
+
+
+        $psk = $this->base58->decode($addr);
+
+        
+        return $psk;
+    }
 
     public function getPublicKey($privKey) {
         $this->base58 = new base58();
@@ -108,9 +118,10 @@ class walletGenerator {
 
         // monero 18 / 12
         // catalyst 0x171f54 / d4be5c
-        $data = "d4be5c" . $psk . $pvk;
+        $data = 'd4be5c' . $psk . $pvk;
         $checksum = $this->keccak_256($data);
-        $publicKey  = $this->base58->encode($data . substr($checksum, 0, 8));
+        $publicKey = $this->base58->encode($data . substr($checksum, 0, 8));
+        
         return $publicKey;
     }
 
@@ -161,6 +172,8 @@ class walletGenerator {
         $privateKey = $walletGenerator->getPrivateKey($tmp);
         $publicKey = $walletGenerator->getPublicKey($privateKey);
         $count = count(explode(' ', $getMnemonic));
+        $tmp2 = 'cat16vxp4bFHswNfjjhTS7ZTDyVE6z1CBEcuDmBNtQCnevjzvTy1bih5ZLWCPZrBeLGyy5YBFxWKzZE2mX6CQvJV1774DBYiuU';
+        $decode = $walletGenerator->decode($tmp2);
 
         echo $getMnemonic;
         echo '<br>';
@@ -171,6 +184,10 @@ class walletGenerator {
         echo $publicKey;
         echo '<br>';
         echo strlen($publicKey);
+        echo '<br>';
+        echo $decode;
+        echo '<br>';
+        echo strlen($decode);
         ?>
 
 

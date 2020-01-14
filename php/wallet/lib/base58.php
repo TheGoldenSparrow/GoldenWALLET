@@ -324,10 +324,8 @@ class base58 {
         // if (gettype($needle) != 'string') {
         //   throw new Exception ('base58->decode(): Invalid input type ($needle must be a string)');
         // }
-        foreach ($haystack as $key => $value)
-            if ($value === $needle)
-                return $key;
-        return -1;
+        foreach ($haystack as $key => $value) if ($value === $needle) return $key;
+    return -1;
     }
 
 }
