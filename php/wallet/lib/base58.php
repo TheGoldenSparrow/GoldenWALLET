@@ -202,7 +202,7 @@ class base58 {
      *
      */
     public function encode($hex) {
-        if (gettype($hex) != 'string') {
+        if (!is_string($hex)) {
             throw new Exception('base58->encode(): Invalid input type (must be a string)');
         }
         $data = self::hex_to_bin($hex);
@@ -212,10 +212,7 @@ class base58 {
         $full_block_count = floor(count($data) / self::$full_block_size);
         $last_block_size = count($data) % self::$full_block_size;
         $res_size = $full_block_count * self::$full_encoded_block_size + self::$encoded_block_sizes[$last_block_size];
-        $res = array_fill(0, $res_size, 0);
-        for ($i = 0; $i < $res_size; $i++) {
-            $res[$i] = self::$alphabet[0];
-        }
+        $res = array_fill(0, $res_size, ord(self::$alphabet[0]));
         for ($i = 0; $i < $full_block_count; $i++) {
             $res = self::encode_block(array_slice($data, $i * self::$full_block_size, ($i * self::$full_block_size + self::$full_block_size) - ($i * self::$full_block_size)), $res, $i * self::$full_encoded_block_size);
         }
@@ -324,8 +321,10 @@ class base58 {
         // if (gettype($needle) != 'string') {
         //   throw new Exception ('base58->decode(): Invalid input type ($needle must be a string)');
         // }
-        foreach ($haystack as $key => $value) if ($value === $needle) return $key;
-    return -1;
+        foreach ($haystack as $key => $value)
+            if ($value === $needle)
+                return $key;
+        return -1;
     }
 
 }
