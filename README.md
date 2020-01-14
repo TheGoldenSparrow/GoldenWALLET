@@ -1,2 +1,0 @@
-# GoldenWallet
-experimental wallet generator
